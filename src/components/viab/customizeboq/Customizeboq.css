@@ -1,0 +1,79 @@
+.insuranceSection {
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  font-family: var(--font-family);
+  color: #333;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.second-layer {
+  background-color: rgba(157, 150, 134, 0.5) !important;
+  border-radius: 10px;
+}
+
+.boq-title {
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: rgba(13, 20, 28, 1);
+}
+
+.boq-label {
+  margin-top: 20px;
+  font-weight: 700;
+  font-size: 1.125rem;
+  display: block;
+  color: rgba(13, 20, 28, 1);
+  margin-bottom: 0.5rem;
+}
+
+.boq-btn-group button {
+  margin: 5px;
+  min-width: 100px;
+  color: rgba(13, 20, 28, 1);
+}
+
+.generate-btn {
+  margin-top: 30px;
+  padding: 10px 20px;
+}
+
+.boq-input {
+  width: 40% !important;
+  margin-top: 0.5rem;
+}
+
+.new-color {
+  background-color: rgba(247, 250, 252, 1) !important;
+  color: rgba(13, 20, 28, 1);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.new-color:hover {
+  background-color: #6c757d !important;
+}
+
+/* Media Queries */
+@media (max-width: 576px) {
+  .boq-title {
+    font-size: 1.4rem;
+  }
+
+  .boq-input {
+  width: 100% !important;
+  margin-top: 0.5rem;
+}
+  .boq-label {
+    font-size: 1rem;
+  }
+
+  .generate-btn {
+    width: 100%;
+  }
+
+  .boq-btn-group button {
+    flex: 1 1 45%;
+  }
+}
