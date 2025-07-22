@@ -5,15 +5,17 @@ body {
 
 
 .main-signup-div {
-  background-image: url("/assets/images/backgroundgrouped.png");
-  background-size: cover;
+  /* background-image: url("/assets/images/backgroundgrouped.png"); */
+  background: var(--bg-gradient);
+  padding: 1.5rem;
+  /* background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
-  height: auto
+  
+  height: 100% */
 }
  
 .images-bg-signup {

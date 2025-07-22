@@ -95,14 +95,14 @@ body {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content:center ;
 }
 
 .card-box {
   background: rgba(157, 150, 134, 1);
   border-radius: 12px;
   overflow: hidden;
-  width: 100%;
+  width: 23%;
   max-width: 280px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   display: flex;

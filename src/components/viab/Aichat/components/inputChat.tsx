@@ -1,9 +1,10 @@
 "use client";
 import {
-  analyzeHandler,
   interviewHandler,
 } from "@/app/viab/handler/chatbotHandler";
 import { addMessage } from "@/redux/ChatSlicer";
+import { BiUserVoice} from "react-icons/bi";
+
 import { BiCalculator, BiSend } from "react-icons/bi";
 import { BsMic } from "react-icons/bs";
 import { FiFileText } from "react-icons/fi";
@@ -26,6 +27,8 @@ const InputMessage = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [attachedFiles, setAttachedFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [contextTag, setContextTag] = useState<string | null>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("userInfo");
@@ -38,83 +41,151 @@ const InputMessage = () => {
       }
     }
   }, []);
-
   const sendMessage = async () => {
+  if (!userInput.trim() && attachedFiles.length === 0) return;
 
-    if (attachedFiles.length === 0) {
-      if (!userInput.trim()) return;
-      const newUserMessage = {
-        sender: "user",
-        text: userInput,
-      };
+  setIsLoading(true);
 
-      dispatch(addMessage(newUserMessage));
-      setUserInput("");
+  // Show user's message immediately (text + file previews)
+  const newUserMessage = {
+    sender: "user",
+    text: userInput.trim(),
+    files: attachedFiles.map((file) => ({
+      name: file.name,
+      type: file.type,
+      url: URL.createObjectURL(file),
+    })),
+  };
+  dispatch(addMessage(newUserMessage));
 
-      try {
-        setIsLoading(true)
-        const formData = new URLSearchParams();
-        formData.append("data", userInput);
-        formData.append("user_id", userId || "unknown");
-        formData.append("session_id", "123456");
+  // Prepare form data for the API
+  const formData = new FormData();
+  formData.append("user_input", contextTag ? `${contextTag}: ${userInput}` : userInput);
+  // formData.append("user_input", userInput || "");
+  formData.append("user_id", userId || "unknown");
+  formData.append("session_id", "123456");
+  attachedFiles.forEach((file) => {
+    formData.append("files", file);
+  });
 
-        const response = await interviewHandler(formData);
+  // Reset input
+  setUserInput("");
+  setAttachedFiles([]);
+  setContextTag(null);
+  try {
+    const response = await interviewHandler(formData);
+    const aiMessage = {
+      sender: "ai",
+      text: response?.message || "No response from AI.",
+    };
+    dispatch(addMessage(aiMessage));
+  } catch (error: any) {
+    console.error("Error sending message:", error?.response?.data || error);
+    dispatch(
+      addMessage({
+        sender: "ai",
+        text: "Sorry, something went wrong with the server.",
+      })
+    );
+  } finally {
+    setIsLoading(false);
+  }
+};
+const dropdownRef = useRef<HTMLDivElement>(null);
 
-        const aiMessage = {
-          sender: "ai",
-          text: response?.message || "No response from AI.",
-        };
-        dispatch(addMessage(aiMessage));
-        setIsLoading(false);
-      } catch (error: any) {
-        console.error("Error sending message:", error?.response?.data || error);
-        dispatch(
-          addMessage({
-            sender: "ai",
-            text: "Sorry, something went wrong with the server.",
-          })
-        );
-      }
-    } else {
-      setIsLoading(true);
-      const formData = new FormData();
-      attachedFiles.forEach((file) => {
-        formData.append("files", file);
-      });
-      formData.append("user_id", userId || "unknown");
-      formData.append("session_id", "123456");
-      const previewMessage = {
-        sender: "user",
-        text: "📎 File uploaded:",
-        files: attachedFiles.map((file) => ({
-          name: file.name,
-          type: file.type,
-          url: URL.createObjectURL(file),
-        })),
-      };
-      dispatch(addMessage(previewMessage));
-      setAttachedFiles([]);
-
-      try {
-        const response = await analyzeHandler(formData);
-        const aiMessage = {
-          sender: "ai",
-          text: response?.message || "No response from AI.",
-        };
-
-        dispatch(addMessage(aiMessage));
-        setIsLoading(false);
-      } catch (error: any) {
-        console.error("File analysis error:", error);
-        dispatch(
-          addMessage({
-            sender: "ai",
-            text: "Failed to analyze the uploaded file.",
-          })
-        );
-      }
+useEffect(() => {
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setIsDropdownOpen(false);
     }
   };
+
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
+
+
+  // const sendMessage = async () => {
+
+  //   if (attachedFiles.length === 0) {
+  //     if (!userInput.trim()) return;
+  //     const newUserMessage = {
+  //       sender: "user",
+  //       text: userInput,
+  //     };
+
+  //     dispatch(addMessage(newUserMessage));
+  //     setUserInput("");
+
+  //     try {
+  //       setIsLoading(true)
+  //       const formData = new URLSearchParams();
+  //       formData.append("user_input", userInput);
+  //       formData.append("user_id", userId || "unknown");
+  //       formData.append("session_id", "123456");
+
+  //       const response = await interviewHandler(formData);
+
+  //       const aiMessage = {
+  //         sender: "ai",
+  //         text: response?.message || "No response from AI.",
+  //       };
+  //       dispatch(addMessage(aiMessage));
+  //       setIsLoading(false);
+  //     } catch (error: any) {
+  //       console.error("Error sending message:", error?.response?.data || error);
+  //       dispatch(
+  //         addMessage({
+  //           sender: "ai",
+  //           text: "Sorry, something went wrong with the server.",
+  //         })
+  //       );
+  //     }
+  //   } else {
+  //     setIsLoading(true);
+  //     const formData = new FormData();
+  //     attachedFiles.forEach((file) => {
+  //       formData.append("files", file);
+  //     });
+  //     formData.append("user_id", userId || "unknown");
+  //     formData.append("session_id", "123456");
+  //     const previewMessage = {
+  //       sender: "user",
+  //       text:'',
+  //       files: attachedFiles.map((file) => ({
+  //         name: file.name,
+  //         type: file.type,
+  //         url: URL.createObjectURL(file),
+  //       })),
+  //     };
+  //     dispatch(addMessage(previewMessage));
+  //     setAttachedFiles([]);
+
+  //     try {
+  //       const response = await interviewHandler(formData);
+  //       const aiMessage = {
+  //         sender: "ai",
+  //         text: response?.message || "No response from AI.",
+  //       };
+
+  //       dispatch(addMessage(aiMessage));
+  //       setIsLoading(false);
+  //     } catch (error: any) {
+  //       console.error("File analysis error:", error);
+  //       dispatch(
+  //         addMessage({
+  //           sender: "ai",
+  //           text: "Failed to analyze the uploaded file.",
+  //         })
+  //       );
+  //     }
+  //   }
+  // };
   const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
@@ -139,11 +210,11 @@ const InputMessage = () => {
   };
   return (
     <>
-      <div className={`chat-footer ${isLoading ? "loading" : ""}`}>
+      <div className={`chat-footer  mb-2 ${isLoading ? "loading" : ""}`}>
         <div className="chat-footer">
 
 
-          <div style={{ display: "flex", flexDirection: "row", gap: "1rem", flexWrap: "wrap" }}>
+          <div  className = "d-flex flex-wrap gap-1  pt-0 prev">
             {attachedFiles.map((file, index) => (
               <div
                 key={index}
@@ -151,22 +222,24 @@ const InputMessage = () => {
                 style={{ position: "relative", marginBottom: "1rem" }}
               >
                 <button
+                className="d-flex align-items-center justify-content-center"
                   onClick={() => removeAttachedFile(index)}
                   type="button"
                   style={{
                     position: "absolute",
                     top: "5px",
-                    right: "5px",
+                    right: "0px",
                     background: "#ff4d4f",
                     color: "white",
                     border: "none",
                     borderRadius: "50%",
-                    width: "24px",
-                    height: "24px",
+                    width: "15px",
+                    height: "15px",
                     cursor: "pointer",
                     fontSize: "16px",
                     lineHeight: "20px",
                     textAlign: "center",
+                    
                   }}
                 >
                   ×
@@ -177,10 +250,11 @@ const InputMessage = () => {
                     src={URL.createObjectURL(file)}
                     alt={file.name}
                     style={{
-                      width: "100px",
-                      height: "100px",
+                      width: "80px",
+                      height: "80px",
                       borderRadius: "8px",
                       objectFit: "cover",
+
                     }}
                   />
                 ) : (
@@ -214,6 +288,42 @@ const InputMessage = () => {
             >
               <GiPaperClip />
             </button>
+ <div className="tools-dropdown-wrapper" ref={dropdownRef}>
+  <button
+    className="icon-btn tools-toggle"
+    onClick={() => setIsDropdownOpen((prev) => !prev)}
+    type="button"
+  >
+    ⋮
+  </button>
+  {isDropdownOpen && (
+  <div className={`tools-dropdown ${isDropdownOpen ? "show" : "hide"}`}>
+    <button
+      className="tool-item"
+      onClick={() => {
+        setContextTag("Interview");
+        setIsDropdownOpen(false);
+      }}
+    >
+      <BiUserVoice className="me-2" /> Interview
+    </button>
+    <button
+      className="tool-item"
+      onClick={() => {
+        setContextTag("BOQ");
+        setIsDropdownOpen(false);
+      }}
+    >
+      <BiCalculator className="me-2" /> BOQ
+    </button>
+  </div>
+)}
+
+
+  
+</div>
+
+       
 
             <input
               ref={fileInputRef}
@@ -253,7 +363,7 @@ const InputMessage = () => {
             </button>
           </div>
 
-          <div className="footer-buttons">
+          {/* <div className="footer-buttons">
             <button
               className="boq-btns"
               type="button"
@@ -270,11 +380,11 @@ const InputMessage = () => {
               <FiFileText />
               Generate Architectural Drawings
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
-  );
+  )
 };
 
 export default InputMessage;

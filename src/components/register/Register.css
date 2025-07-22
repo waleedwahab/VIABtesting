@@ -4,13 +4,7 @@ body {
 }
 
 .main-signup-div {
-  background-image: url("../../../public/assets/images/backgroundgrouped.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: var(--bg-gradient);
   padding: 1.5rem;
 }
 

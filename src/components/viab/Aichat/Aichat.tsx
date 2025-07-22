@@ -8,18 +8,12 @@ export default function Aichat() {
   const [closeActive, setCloseActive] = useState(false);
 
   return (
-    <div className="chat-container">`
+    <div className="chat-container">
     
       <Sidebar closeActive={closeActive} setCloseActive={setCloseActive} />
       <div className="chat-main">
-        {/* <div className="chat-header">Project Details</div>
-        <div className="chat-subtext">
-          Please provide the following information to generate your Bill of
-          Quantities (BOQ).
-        </div> */}
-     
-        <Messages />
-        <InputMessage />
+          <Messages />
+         {<InputMessage /> }
       </div>
     </div>
   );

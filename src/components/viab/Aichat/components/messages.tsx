@@ -15,31 +15,33 @@ const Messages = () => {
 
   return (
     <>
-      <div className="chat-messages">
+      <div className="chat-messages ">
         {messages.map((msg: any, i: number) => (
-          <div className="message-row" key={i}>
-            <div
-              className={`message-bubble ${
-                msg.sender === "user" ? "message-user" : "message-ai"
-              }`}
-            >
-              <div ref={chatContainerRef}>
-                {msg.sender == "user" ? (
-                  msg.text
-                ) : (
-                  <CustomMarkdown content={msg.text} />
-                )}
-              </div>
-              {msg.files && (
-                <div className="uploaded-files mt-2">
+
+          <div className={`message-row ${msg.sender === "ai" ? "ai-message" : ""}`} key={i}>
+  <div
+    className={`message-bubble ${
+      msg.sender === "user" ? "message-user" : "message-ai"
+    }`}
+  >
+    <div ref={chatContainerRef}>
+      {msg.sender === "user" ? (
+        msg.text
+      ) : (
+        <CustomMarkdown content={msg.text} />
+      )}
+    </div>
+   {msg.files && (
+                <div className="uploaded-files d-flex align-items-center justify-content-center gap-2 flex-wrap  mt-2">
                   {msg.files.map((file: any, idx: number) => (
-                    <div key={idx}>
+                    <div key={idx} className="mt-3">
                       {file.type.startsWith("image/") ? (
+                      
                         <img
                           src={file.url}
                           alt={file.name}
-                          width={100}
-                          height={100}
+                          width={70}
+                          height={70}
                           style={{ maxWidth: "150px", borderRadius: "10px" }}
                         />
                       ) : (
@@ -55,8 +57,49 @@ const Messages = () => {
                   ))}
                 </div>
               )}
-            </div>
-          </div>
+  </div>
+</div>
+
+          // <div className="message-row" key={i}>
+          //   <div
+          //     className={`message-bubble ${
+          //       msg.sender === "user" ? "message-user" : "message-ai"
+          //     }`}
+          //   >
+          //     <div ref={chatContainerRef}>
+          //       {msg.sender == "user" ? (
+          //         msg.text
+          //       ) : (
+          //         <CustomMarkdown content={msg.text} />
+          //       )}
+          //     </div>
+          //     {msg.files && (
+          //       <div className="uploaded-files mt-2">
+          //         {msg.files.map((file: any, idx: number) => (
+          //           <div key={idx}>
+          //             {file.type.startsWith("image/") ? (
+          //               <img
+          //                 src={file.url}
+          //                 alt={file.name}
+          //                 width={100}
+          //                 height={100}
+          //                 style={{ maxWidth: "150px", borderRadius: "10px" }}
+          //               />
+          //             ) : (
+          //               <a
+          //                 href={file.url}
+          //                 target="_blank"
+          //                 rel="noopener noreferrer"
+          //               >
+          //                 📄 {file.name}
+          //               </a>
+          //             )}
+          //           </div>
+          //         ))}
+          //       </div>
+          //     )}
+          //   </div>
+          // </div>
         ))}
 
         {/* {messages.map((msg, i) => (

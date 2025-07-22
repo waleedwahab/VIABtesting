@@ -59,7 +59,7 @@ const Navbar = () => {
   href="/viab/generatedrawings"
   className={`nav-link ${pathname === "/viab/generatedrawings" ? "active" : ""}`}
 >
-  Generate Drawings
+  AI assistant
 </Link>
             </li>
             <li className="nav-item">
@@ -67,7 +67,7 @@ const Navbar = () => {
   href="/viab/design"
   className={`nav-link ${pathname === "/viab/design" ? "active" : ""}`}
 >
-  Design
+  Design space
 </Link>
             </li>
             <li className="nav-item">
@@ -75,7 +75,7 @@ const Navbar = () => {
   href="/viab/orders"
   className={`nav-link ${pathname === "/viab/orders" ? "active" : ""}`}
 >
-  Order History
+  Insurance
 </Link>
             </li>
             <li className="nav-item">
@@ -83,7 +83,7 @@ const Navbar = () => {
   href="/viab/insurance"
   className={`nav-link ${pathname === "/viab/insurance" ? "active" : ""}`}
 >
-  Insurance
+  Projects
 </Link>
 
             </li>

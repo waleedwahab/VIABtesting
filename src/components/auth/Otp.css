@@ -10,10 +10,7 @@
 }
 
 .otp-container {
-  background-image: url("/assets/images/backgroundgrouped.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: var(--bg-gradient);
   min-height: 100vh;
   width: 100%;
   display: flex;

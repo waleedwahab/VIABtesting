@@ -1,20 +1,45 @@
 import axios from "axios";
-// const baseURL = process.env.NEXT_PUBLIC_AI_BASE_URL;
+
+const baseURL = process.env.NEXT_PUBLIC_AI_BASE_URL;
+
 export const interviewHandler = async (values: any) => {
   try {
-    const resp = await axios.post("https://kapcjtnj7e6cfthe5k22cqylki.srv.us/api/interview", values);
-      
-    return { message: resp?.data?.content, status: resp.status };
-  } catch (error) {
-    console.log(`error: ${JSON.stringify(error)}`);
-  }
-};
+    const resp = await axios.post(`${baseURL}/api/v1/boq/workflow`, values);
+    console.log("Response:", resp);
 
-export const analyzeHandler = async (values: any) => {
-  try {
-    const resp = await axios.post("https://kapcjtnj7e6cfthe5k22cqylki.srv.us/api/analyze", values);
-      return { message: resp?.data?.content, status: resp.status };
-  } catch (error) {
-    console.log(`error: ${JSON.stringify(error)}`);
+    const workflow = resp?.data?.workflow_responses?.[0];
+
+    if (workflow?.interview_data?.content) {
+      console.log("Matched: interview_data");
+      return {
+        message: workflow.interview_data.content,
+        status: resp.status,
+      };
+    } else if (workflow?.analysis_data) {
+      console.log("Matched: analysis_data");
+      return {
+        message: workflow.analysis_data,
+        status: resp.status,
+      }
+    }
+      else if (workflow?.boq_data) {
+      console.log("Matched: analysis_data");
+      return {
+        message: workflow.boq_data,
+        status: resp.status,
+      }}
+     else {
+      console.log("No relevant data found in response.");
+      return {
+        message: "No valid content found.",
+        status: resp.status,
+      };
+    }
+  } catch (error: any) {
+    console.error("Error occurred in interviewHandler:", error?.message || error);
+    return {
+      message: "Something went wrong.",
+      status: 500,
+    };
   }
 };

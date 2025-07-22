@@ -47,7 +47,7 @@ const OtpPage = () => {
         alert("OTP verified successfully!");
         sessionStorage.removeItem("otpToken");
         sessionStorage.removeItem("otpEmail");
-        router.push("/login");
+        router.push("/auth/login");
       } else {
         alert("OTP verification failed.");
       }
