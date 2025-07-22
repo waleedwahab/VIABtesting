@@ -15,7 +15,7 @@ const Messages = () => {
 
   return (
     <>
-      <div className="chat-messages ">
+      <div className="chat-messages">
         {messages.map((msg: any, i: number) => (
 
           <div className={`message-row ${msg.sender === "ai" ? "ai-message" : ""}`} key={i}>
