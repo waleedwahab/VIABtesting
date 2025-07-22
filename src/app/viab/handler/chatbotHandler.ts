@@ -4,7 +4,7 @@ const baseURL = process.env.NEXT_PUBLIC_AI_BASE_URL;
 
 export const interviewHandler = async (values: any) => {
   try {
-    const resp = await axios.post(`${baseURL}/api/v1/boq/workflow`, values);
+    const resp = await axios.post("https://nnnlnhxhyr4zd74guusgqb6wrm.srv.us/api/v1/boq/workflow", values);
     console.log("Response:", resp);
 
     const workflow = resp?.data?.workflow_responses?.[0];
