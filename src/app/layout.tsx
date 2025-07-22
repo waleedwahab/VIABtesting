@@ -1,7 +1,6 @@
 "use client";
 import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import "bootstrap/dist/js/bootstrap.bundle.min.js"; 
 import "../services/themes/Theme.css";
 import "../utils/axios";
 
@@ -15,6 +14,7 @@ export default function LayoutWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+
   const hideLayoutPaths = [
     "/auth/login",
     "/auth/otp",
@@ -22,7 +22,9 @@ export default function LayoutWrapper({
     "/auth/new-password",
     "/auth/forgot-password",
     "/",
+    "/viab/generatedrawings", // ✅ Add your route here
   ];
+
   const shouldHideLayout = hideLayoutPaths.includes(pathname);
 
   return (
@@ -31,7 +33,6 @@ export default function LayoutWrapper({
         <ReduxProvider>
           {!shouldHideLayout && <Navbar />}
           {children}
-          {/* {!shouldHideLayout && <Footer />} */}
         </ReduxProvider>
       </body>
     </html>

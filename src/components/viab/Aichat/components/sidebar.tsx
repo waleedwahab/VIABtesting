@@ -28,7 +28,7 @@ const Sidebar = ({
           <div className="d-flex flex-column justify-content-between h-100 w-100 ">
             <div className="scroller-sidebar">
             <div className="d-flex align-items-start gap-5 mt-3 ">
-              <button className="btn btn-light txt-dark ms-1">New Chat</button>
+              <button className="btn btn-light txt-dark ms-1" style ={{fontSize:"14px"}}>New Chat</button>
               <Image
                 alt="History Closing Icon"
                 src="/assets/icons/png/historyclosingicon.png"
@@ -45,26 +45,28 @@ const Sidebar = ({
               />
             </div>
             <div className="chats">
-             <p>How can I center a div?</p>
-<p>Explain async/await in simple terms.</p>
-<p>Whats the difference between var, let, and const?</p>
-<p>Give me a CSS animation example.</p>
-<p>Fix this JavaScript error for me.</p>
-<p>What is useEffect used for?</p>
-<p>Translate this to French.</p>
-<p>Summarize this article.</p>
-<p>Generate a professional email reply.</p>
-<p>Make this text sound more formal.</p>
-<p>Whats new in React 18?</p>
-<p>How do I clear npm cache?</p>
-<p>Give me a motivational quote.</p>
-<p>What does h100 mean in Bootstrap</p>
-<p>Debug this Node.js code.</p>
-<p>Best way to learn data structures?</p>
-<p>Explain the box model in CSS.</p>
-<p>Why is my Flexbox not aligning?</p>
-<p>Give me a SQL join example.</p>
-<p>Write a regex to validate email.</p>
+          <p>Generate a floor plan with 3 bedrooms and a kitchen.</p>
+<p>Create a BOQ for a 5 marla house.</p>
+<p>Fix the overlapping issue in my room layout.</p>
+<p>How can I center a room in the floor view?</p>
+<p>What s the best way to calculate construction cost?</p>
+<p>Explain BOQ in simple terms.</p>
+<p>Make this floor plan design look more modern.</p>
+<p>Translate this BOQ to French.</p>
+<p>Summarize this construction estimate.</p>
+<p>Generate a professional email to send this BOQ to my client.</p>
+<p>Why is my room not aligning properly on the canvas?</p>
+<p>How can I reset my floor layout?</p>
+<p>Give me a quote related to architecture or design</p>
+<p>What does scale 100% mean in plan view?</p>
+<p>Debug this plan — rooms are not connecting right</p>
+<p>Best way to learn how to read BOQ?</p>
+<p>Explain how wall thickness affects area</p>
+<p>How do I add stairs in my plan</p>
+<p>Give me an example of estimating material for walls
+</p>
+<p>Write a formula to validate room dimensions</p>
+
               
             </div>
             </div>
@@ -74,7 +76,7 @@ const Sidebar = ({
                   <Image
                     alt="Upgrade Plan Icon"
                     src="/assets/icons/png/upgradeplan.png"
-                    className="me-3"
+                    className="me-1"
                     width={20}
                     height={20}
                   />

@@ -3,12 +3,13 @@ import {
   interviewHandler,
 } from "@/app/viab/handler/chatbotHandler";
 import { addMessage } from "@/redux/ChatSlicer";
+import { setIsLoading } from "@/redux/ChatSlicer";
 import { BiUserVoice} from "react-icons/bi";
-
 import { BiCalculator, BiSend } from "react-icons/bi";
 import { BsMic } from "react-icons/bs";
 import { FiFileText } from "react-icons/fi";
 import { GiPaperClip } from "react-icons/gi";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 import {
@@ -21,8 +22,10 @@ import {
 
 const InputMessage = () => {
   const dispatch = useDispatch();
+  const isLoading = useSelector((state: any) => state.chat.isLoading);
   const [userInput, setUserInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+  
   const [userId, setUserId] = useState<string | null>(null);
   const [isRecording, setIsRecording] = useState(false);
   const [attachedFiles, setAttachedFiles] = useState<File[]>([]);
@@ -44,7 +47,7 @@ const InputMessage = () => {
   const sendMessage = async () => {
   if (!userInput.trim() && attachedFiles.length === 0) return;
 
-  setIsLoading(true);
+dispatch(setIsLoading(true));
 
   // Show user's message immediately (text + file previews)
   const newUserMessage = {
@@ -88,7 +91,7 @@ const InputMessage = () => {
       })
     );
   } finally {
-    setIsLoading(false);
+   dispatch(setIsLoading(false));
   }
 };
 const dropdownRef = useRef<HTMLDivElement>(null);
@@ -210,11 +213,9 @@ useEffect(() => {
   };
   return (
     <>
-      <div className={`chat-footer  mb-2 ${isLoading ? "loading" : ""}`}>
-        <div className="chat-footer">
-
-
-          <div  className = "d-flex flex-wrap gap-1  pt-0 prev">
+      <div className={`chat-footer  ${isLoading ? "loading" : ""}`}>
+      <div className="chat-footer">
+      <div  className = "d-flex flex-wrap gap-1  pt-0 prev">
             {attachedFiles.map((file, index) => (
               <div
                 key={index}

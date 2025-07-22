@@ -8,10 +8,12 @@ type Message = {
 
 interface ChatState {
   messages: Message[];
+  isLoading: boolean; //
 }
 
 const initialState: ChatState = {
   messages: [],
+  isLoading: false,
 };
 
 const chatSlice = createSlice({
@@ -22,13 +24,16 @@ const chatSlice = createSlice({
       state.messages.push(action.payload);
     },
     setMessages: (state, action: { payload: Message[] }) => {
-      state.messages = action.payload; // 🆕 Overwrites all messages
+      state.messages = action.payload;
     },
     clearMessages: (state) => {
       state.messages = [];
     },
+     setIsLoading: (state, action: { payload: boolean }) => {
+      state.isLoading = action.payload;
+    },
   },
 });
 
-export const { addMessage, setMessages, clearMessages } = chatSlice.actions;
+export const { addMessage, setMessages, clearMessages, setIsLoading } = chatSlice.actions;
 export default chatSlice.reducer;
