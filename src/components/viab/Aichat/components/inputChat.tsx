@@ -19,8 +19,10 @@ import {
   type ChangeEvent,
   useEffect,
 } from "react";
-
-const InputMessage = () => {
+type InputMessageProps = {
+  closeActive: boolean;
+};
+const InputMessage = ({ closeActive }: InputMessageProps) => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state: any) => state.chat.isLoading);
   const [userInput, setUserInput] = useState("");
@@ -213,7 +215,7 @@ useEffect(() => {
   };
   return (
     <>
-      <div className={`chat-footer  ${isLoading ? "loading" : ""}`}>
+      <div className={`${closeActive ? "chat" :"chat-footer "} ${isLoading ? "loading" : ""}`}>
       <div className="chat-footer">
       <div  className = "d-flex flex-wrap gap-1  pt-0 prev">
             {attachedFiles.map((file, index) => (

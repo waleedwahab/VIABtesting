@@ -221,7 +221,8 @@ const Messages = () => {
 
   return (
     <>
-      <div className="chat-messages" ref={chatContainerRef}>
+    <div className="chat-messages d-flex align-items-center justify-content-center" ref={chatContainerRef}>
+      <div className="chat-messages2 " >
         {messages.map((msg: any, i: number) => (
           <div
             className={`message-row ${msg.sender === "ai" ? "ai-message" : ""}`}
@@ -278,6 +279,7 @@ const Messages = () => {
             </div>
           </div>
         )}
+      </div>
       </div>
     </>
   );

@@ -11,9 +11,9 @@ export default function Aichat() {
     <div className="chat-container">
     
       <Sidebar closeActive={closeActive} setCloseActive={setCloseActive} />
-      <div className="chat-main ">
+      <div className="chat-main h-100">
           <Messages />
-         {<InputMessage /> }
+         <InputMessage closeActive={closeActive} />
       </div>
     </div>
   );
